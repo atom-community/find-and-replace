@@ -891,7 +891,7 @@ describe('ResultsView', () => {
       atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
-      resultsPane = getResultsPane();
+      const resultsPane = getResultsPane();
       await etch.update(resultsPane);
       expect(resultsPane.refs.previewCount.textContent).toContain('3 files');
 
