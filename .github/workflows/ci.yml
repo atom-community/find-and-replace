@@ -1,9 +1,10 @@
 name: CI
 
-on: [push, pull_request]
-
-env:
-  CI: true
+on:
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   Test:
@@ -17,6 +18,10 @@ jobs:
       - uses: UziTech/action-setup-atom@v2
         with:
           version: ${{ matrix.channel }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
