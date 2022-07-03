@@ -3,7 +3,6 @@
 const _ = require('underscore-plus');
 const path = require('path');
 const temp = require('temp');
-const fs = require('fs');
 const etch = require('etch');
 const ResultsPaneView = require('../lib/project/results-pane');
 const getIconServices = require('../lib/get-icon-services');
@@ -33,8 +32,7 @@ describe('ResultsView', () => {
 
   function buildResultsView(options = {}) {
     const FindOptions = require("../lib/find-options")
-    const ResultsModel = require("../lib/project/results-model")
-    const { Result } = ResultsModel
+    const {ResultsModel, Result} = require("../lib/project/results-model")
     const ResultsView = require("../lib/project/results-view")
     const model = new ResultsModel(new FindOptions({}), null)
     const resultsView = new ResultsView({ model })

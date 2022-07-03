@@ -1,7 +1,7 @@
 /** @babel */
 
 const path = require("path");
-const ResultsModel = require("../lib/project/results-model");
+const {ResultsModel} = require("../lib/project/results-model");
 const FindOptions = require("../lib/find-options");
 
 describe("ResultsModel", () => {
