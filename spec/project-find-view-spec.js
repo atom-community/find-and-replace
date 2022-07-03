@@ -636,7 +636,9 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
         await searchPromise;
       });
 
-      it("runs a case insensitive search by default", () => expect(atom.workspace.scan.argsForCall[0][0]).toEqual(/items/gim));
+      it("runs a case insensitive search by default", () =>
+        // eslint-disable-next-line optimize-regex/optimize-regex
+        expect(atom.workspace.scan.argsForCall[0][0]).toEqual(/ITEMS/gim))
 
       it("toggles case sensitive option via an event and finds files matching the pattern", async () => {
         expect(projectFindView.refs.caseOptionButton).not.toHaveClass('selected');
