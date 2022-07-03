@@ -83,7 +83,7 @@ describe('ResultsView', () => {
       });
     });
 
-    atom.commands.dispatch(workspaceElement, 'project-find:show');
+    await atom.commands.dispatch(workspaceElement, 'project-find:show');
 
     await activationPromise;
   });
@@ -91,7 +91,7 @@ describe('ResultsView', () => {
   describe("when the result is for a long line", () => {
     it("renders the context around the match", async () => {
       projectFindView.findEditor.setText('ghijkl');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -109,7 +109,7 @@ describe('ResultsView', () => {
 
     it("includes the basename of the project path that contains the match", async () => {
       projectFindView.findEditor.setText('ghijkl');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -127,7 +127,7 @@ describe('ResultsView', () => {
 
     it("renders the replacement when doing a search and there is a replacement pattern", async () => {
       projectFindView.replaceEditor.setText('cats');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -138,7 +138,7 @@ describe('ResultsView', () => {
     });
 
     it("renders the replacement when changing the text in the replacement field", async () => {
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -169,7 +169,7 @@ describe('ResultsView', () => {
       projectFindView.refs.regexOptionButton.click();
       projectFindView.findEditor.setText('function ?(\\([^)]*\\))');
       projectFindView.replaceEditor.setText('$1 =>')
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -320,7 +320,7 @@ describe('ResultsView', () => {
 
     it("selects the path when when core:move-to-top is triggered and first item is collapsed", async () => {
       await resultsView.moveToTop();
-      atom.commands.dispatch(resultsView.element, 'core:move-left');
+      await atom.commands.dispatch(resultsView.element, 'core:move-left');
       await resultsView.moveToTop();
 
       expect(resultsView.refs.listView.element.querySelector('.path-row').parentElement).toHaveClass('selected');
@@ -330,7 +330,7 @@ describe('ResultsView', () => {
   describe("expanding and collapsing results", () => {
     it('preserves the selected file when collapsing all results', async () => {
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -368,7 +368,7 @@ describe('ResultsView', () => {
 
     it('re-expands all results when running a new search', async () => {
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -377,7 +377,7 @@ describe('ResultsView', () => {
       expect(resultsView.element.querySelector('.collapsed')).not.toBe(null);
 
       projectFindView.findEditor.setText('sort');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       expect(resultsView.element.querySelector('.collapsed')).toBe(null);
@@ -385,7 +385,7 @@ describe('ResultsView', () => {
 
     it('preserves the collapsed state of the right files when results are removed', async () => {
       projectFindView.findEditor.setText('push');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
       resultsView = getResultsView();
 
@@ -405,7 +405,7 @@ describe('ResultsView', () => {
 
     it('preserves the collapsed state of the right files when results are added', async () => {
       projectFindView.findEditor.setText('push');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
       resultsView = getResultsView();
 
@@ -431,7 +431,7 @@ describe('ResultsView', () => {
 
     it("does not contract result when right clicked", async () => {
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -443,7 +443,7 @@ describe('ResultsView', () => {
 
     it("does not expand result when right clicked", async () => {
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -460,7 +460,7 @@ describe('ResultsView', () => {
       await atom.workspace.open('sample.js');
 
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -481,15 +481,15 @@ describe('ResultsView', () => {
     it("opens the file containing the result when 'core:confirm' is called", async () => {
       // open something in sample.coffee
       resultsView.element.focus();
-      _.times(3, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
-      atom.commands.dispatch(resultsView.element, 'core:confirm');
+      _.times(3, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      await atom.commands.dispatch(resultsView.element, 'core:confirm');
       await paneItemOpening()
       expect(atom.workspace.getCenter().getActivePaneItem().getPath()).toContain('sample.');
 
       // open something in sample.js
       resultsView.element.focus();
-      _.times(6, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
-      atom.commands.dispatch(resultsView.element, 'core:confirm');
+      _.times(6, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      await atom.commands.dispatch(resultsView.element, 'core:confirm');
       await paneItemOpening()
       expect(atom.workspace.getCenter().getActivePaneItem().getPath()).toContain('sample.');
     });
@@ -522,7 +522,7 @@ describe('ResultsView', () => {
     it("opens the file in a new non-active tab on 'find-and-replace:open-in-new-tab'", async () => {
       const resultsPane = atom.workspace.paneForURI(ResultsPaneView.URI);
       const preEditors = atom.workspace.getTextEditors(); // keep track of editor list before command execution
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
       await paneItemOpening();
       const postEditors = atom.workspace.getTextEditors(); // editors after command execution
       const found = _.find(postEditors, (editor) => {
@@ -537,9 +537,9 @@ describe('ResultsView', () => {
     });
 
     it("brings an already opened tab into focus on 'find-and-replace:open-in-new-tab'", async () => {
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
       await paneItemOpening();
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:open-in-new-tab');
       await paneItemOpening();
       expect(atom.workspace.getCenter().getActivePaneItem().getPath()).toContain('sample.');
     })
@@ -548,7 +548,7 @@ describe('ResultsView', () => {
       spyOn(resultsView,'setScrollTop').andCallThrough();
 
       projectFindView.findEditor.setText('1');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView.moveToBottom();
@@ -567,24 +567,24 @@ describe('ResultsView', () => {
 
       it("does not create a split when the option is 'none'", async () => {
         atom.config.set('find-and-replace.projectSearchResultsPaneSplitDirection', 'none');
-        atom.commands.dispatch(resultsView.element, 'core:move-down');
-        atom.commands.dispatch(resultsView.element, 'core:confirm');
+        await atom.commands.dispatch(resultsView.element, 'core:move-down');
+        await atom.commands.dispatch(resultsView.element, 'core:confirm');
         await paneItemOpening()
         expect(atom.workspace.open.mostRecentCall.args[1].split).toBeUndefined();
       });
 
       it("always opens the file in the left pane when the option is 'right'", async () => {
         atom.config.set('find-and-replace.projectSearchResultsPaneSplitDirection', 'right');
-        atom.commands.dispatch(resultsView.element, 'core:move-down');
-        atom.commands.dispatch(resultsView.element, 'core:confirm');
+        await atom.commands.dispatch(resultsView.element, 'core:move-down');
+        await atom.commands.dispatch(resultsView.element, 'core:confirm');
         await paneItemOpening()
         expect(atom.workspace.open.mostRecentCall.args[1].split).toBe('left');
       });
 
       it("always opens the file in the pane above when the options is 'down'", async () => {
         atom.config.set('find-and-replace.projectSearchResultsPaneSplitDirection', 'down')
-        atom.commands.dispatch(resultsView.element, 'core:move-down');
-        atom.commands.dispatch(resultsView.element, 'core:confirm');
+        await atom.commands.dispatch(resultsView.element, 'core:move-down');
+        await atom.commands.dispatch(resultsView.element, 'core:confirm');
         await paneItemOpening()
         expect(atom.workspace.open.mostRecentCall.args[1].split).toBe('up');
       });
@@ -596,7 +596,7 @@ describe('ResultsView', () => {
       await atom.workspace.open('sample.js');
 
       projectFindView.findEditor.setText('items');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -644,7 +644,7 @@ describe('ResultsView', () => {
     describe("when there are a list of items", () => {
       beforeEach(async () => {
         projectFindView.findEditor.setText('items');
-        atom.commands.dispatch(projectFindView.element, 'core:confirm');
+        await atom.commands.dispatch(projectFindView.element, 'core:confirm');
         await searchPromise;
         resultsView = getResultsView();
       });
@@ -713,13 +713,13 @@ describe('ResultsView', () => {
   describe("when the results view is empty", () => {
     it("ignores core:confirm and other commands for selecting results", async () => {
       const resultsView = buildResultsView({ empty: true });
-      atom.commands.dispatch(resultsView.element, 'core:confirm');
-      atom.commands.dispatch(resultsView.element, 'core:move-down');
-      atom.commands.dispatch(resultsView.element, 'core:move-up');
-      atom.commands.dispatch(resultsView.element, 'core:move-to-top');
-      atom.commands.dispatch(resultsView.element, 'core:move-to-bottom');
-      atom.commands.dispatch(resultsView.element, 'core:page-down');
-      atom.commands.dispatch(resultsView.element, 'core:page-up');
+      await atom.commands.dispatch(resultsView.element, 'core:confirm');
+      await atom.commands.dispatch(resultsView.element, 'core:move-down');
+      await atom.commands.dispatch(resultsView.element, 'core:move-up');
+      await atom.commands.dispatch(resultsView.element, 'core:move-to-top');
+      await atom.commands.dispatch(resultsView.element, 'core:move-to-bottom');
+      await atom.commands.dispatch(resultsView.element, 'core:page-down');
+      await atom.commands.dispatch(resultsView.element, 'core:page-up');
     });
 
     it("won't show the preview-controls", async () => {
@@ -729,32 +729,32 @@ describe('ResultsView', () => {
   });
 
   describe("copying items with core:copy", () => {
-    it("copies the selected line onto the clipboard", () => {
+    it("copies the selected line onto the clipboard", async () => {
       const resultsView = buildResultsView();
 
       resultsView.selectFirstResult();
-      _.times(3, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
-      atom.commands.dispatch(resultsView.element, 'core:copy');
+      _.times(3, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      await atom.commands.dispatch(resultsView.element, 'core:copy');
       expect(atom.clipboard.read()).toBe('goodnight moon');
     });
   });
 
   describe("copying path with find-and-replace:copy-path", () => {
-    it("copies the selected file path to clipboard", () => {
+    it("copies the selected file path to clipboard", async () => {
       const resultsView = buildResultsView();
 
       resultsView.selectFirstResult();
       // await resultsView.collapseResult();
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
       expect(atom.clipboard.read()).toBe('/a/b.txt');
 
-      atom.commands.dispatch(resultsView.element, 'core:move-down');
-      atom.commands.dispatch(resultsView.element, 'core:move-down');
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
+      await atom.commands.dispatch(resultsView.element, 'core:move-down');
+      await atom.commands.dispatch(resultsView.element, 'core:move-down');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
       expect(atom.clipboard.read()).toBe('/c/d.txt');
 
-      atom.commands.dispatch(resultsView.element, 'core:move-up');
-      atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
+      await atom.commands.dispatch(resultsView.element, 'core:move-up');
+      await atom.commands.dispatch(resultsView.element, 'find-and-replace:copy-path');
       expect(atom.clipboard.read()).toBe('/a/b.txt');
     });
   });
@@ -801,7 +801,7 @@ describe('ResultsView', () => {
         expect(getIconServices().fileIcons).toBe(provider)
 
         projectFindView.findEditor.setText('i');
-        atom.commands.dispatch(projectFindView.element, 'core:confirm');
+        await atom.commands.dispatch(projectFindView.element, 'core:confirm');
         await searchPromise;
 
         resultsView = getResultsView();
@@ -812,7 +812,7 @@ describe('ResultsView', () => {
 
         disposable.dispose();
         projectFindView.findEditor.setText('e');
-        atom.commands.dispatch(projectFindView.element, 'core:confirm');
+        await atom.commands.dispatch(projectFindView.element, 'core:confirm');
 
         await searchPromise;
         resultsView = getResultsView();
@@ -846,17 +846,17 @@ describe('ResultsView', () => {
         }
         let disposable
 
-        waitsForPromise(() => {
+        waitsForPromise(async () => {
           disposable = atom.packages.serviceHub.provide('file-icons.element-icons', '1.0.0', provider)
           expect(getIconServices().elementIcons).toBe(provider)
           projectFindView.findEditor.setText('i');
-          atom.commands.dispatch(projectFindView.element, 'core:confirm');
+          await atom.commands.dispatch(projectFindView.element, 'core:confirm');
           return searchPromise
         })
 
         waitsForPromise(() => delayFor(35))
 
-        runs(() => {
+        runs(async () => {
           resultsView = getResultsView()
           const iconElements = resultsView.element.querySelectorAll(iconSelector)
           expect(iconElements[0].className.trim()).toBe('icon foo bar')
@@ -865,7 +865,7 @@ describe('ResultsView', () => {
 
           disposable.dispose()
           projectFindView.findEditor.setText('e')
-          atom.commands.dispatch(projectFindView.element, 'core:confirm')
+          await atom.commands.dispatch(projectFindView.element, 'core:confirm')
         })
 
         waitsForPromise(() => searchPromise)
@@ -886,7 +886,7 @@ describe('ResultsView', () => {
   describe('updating the search while viewing results', () => {
     it('resets the results message', async () => {
       projectFindView.findEditor.setText('a');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       const resultsPane = getResultsPane();
@@ -894,7 +894,7 @@ describe('ResultsView', () => {
       expect(resultsPane.refs.previewCount.textContent).toContain('3 files');
 
       projectFindView.findEditor.setText('');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await etch.update(resultsPane);
       expect(resultsPane.refs.previewCount.textContent).toContain('Project search results');
     })
@@ -908,7 +908,7 @@ describe('ResultsView', () => {
       atom.config.set('find-and-replace.trailingContextLineCount', 0);
 
       projectFindView.findEditor.setText('items.');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();
@@ -980,7 +980,7 @@ describe('ResultsView', () => {
   describe('selected result and match index', () => {
     beforeEach(async () => {
       projectFindView.findEditor.setText('push');
-      atom.commands.dispatch(projectFindView.element, 'core:confirm');
+      await atom.commands.dispatch(projectFindView.element, 'core:confirm');
       await searchPromise;
 
       resultsView = getResultsView();

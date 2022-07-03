@@ -328,7 +328,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
           expect(resultsView.refs.listView.element.querySelectorAll(".match.highlight-info")).toHaveLength(3);
         });
 
-        it("doesn't insert a escaped char if there are multiple backslashs in front of the char", async () => {
+        it("doesn't insert a escaped char if there are multiple backslashes in front of the char", async () => {
           projectFindView.findEditor.setText('\\\\t');
 
           atom.commands.dispatch(projectFindView.element, 'core:confirm');

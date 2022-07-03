@@ -11,7 +11,7 @@ describe('Find', () => {
       atom.workspace.addOpener(DeferredEditorItem.opener)
 
       const activationPromise = atom.packages.activatePackage('find-and-replace')
-      atom.commands.dispatch(atom.views.getView(atom.workspace), 'find-and-replace:show')
+      await atom.commands.dispatch(atom.views.getView(atom.workspace), 'find-and-replace:show')
       await activationPromise
 
       spyOn(BufferSearch.prototype, 'setEditor')
