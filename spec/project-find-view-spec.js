@@ -858,7 +858,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
       describe("when no results exist", () => {
         beforeEach(() => {
           projectFindView.findEditor.setText('notintheprojectbro');
-          spyOn(atom.workspace, 'scan').andCallFake(async () => {});
+          spyOn(atom.workspace, 'scan').andCallFake(async () => {/* nothing */});
         });
 
         it("displays no errors and no results", async () => {
@@ -878,7 +878,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
         atom.commands.dispatch(workspaceElement, 'project-find:show');
         spyOn(atom.workspace, 'scan').andCallFake(() => {
           const promise = Promise.resolve();
-          promise.cancel = () => {};
+          promise.cancel = () => {/* nothing */};
           return promise;
         });
 

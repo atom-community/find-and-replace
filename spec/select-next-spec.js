@@ -1,7 +1,6 @@
 /** @babel */
 
 const path = require('path');
-const SelectNext = require('../lib/select-next');
 const dedent = require('dedent');
 
 describe("SelectNext", () => {
@@ -31,9 +30,7 @@ describe("SelectNext", () => {
 
     describe("when a word is selected", () => {
       describe("when the selection was created using select-next", () => {
-        beforeEach(() => {});
-
-        it("selects the next occurrence of the selected word skipping any non-word matches", () => {
+        it("selects the next occurrence of the selected word skipping any non-word matches", async () => {
           editor.setText(dedent`
             for
             information
@@ -364,7 +361,7 @@ describe("SelectNext", () => {
 
   describe("find-and-replace:select-undo", () => {
     describe("when there is no selection", () => {
-      it("does nothing", () => {
+      it("does nothing", async () => {
         editor.setText(dedent`
           for
           information
