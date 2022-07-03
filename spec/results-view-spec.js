@@ -20,10 +20,10 @@ global.beforeEach(function() {
 });
 
 describe('ResultsView', () => {
-  let projectFindView, resultsView, searchPromise, workspaceElement;
+  let projectFindView; let resultsView; let searchPromise; let workspaceElement;
 
   function getResultsPane() {
-    let pane = atom.workspace.paneForURI(ResultsPaneView.URI);
+    const pane = atom.workspace.paneForURI(ResultsPaneView.URI);
     if (pane) return pane.itemForURI(ResultsPaneView.URI);
   }
 
@@ -77,7 +77,7 @@ describe('ResultsView', () => {
     atom.config.set('core.excludeVcsIgnoredPaths', false);
     atom.project.setPaths([path.join(__dirname, 'fixtures/project')]);
 
-    let activationPromise = atom.packages.activatePackage("find-and-replace").then(function({mainModule}) {
+    const activationPromise = atom.packages.activatePackage("find-and-replace").then(function({mainModule}) {
       mainModule.createViews();
       ({projectFindView} = mainModule);
       const spy = spyOn(projectFindView, 'confirm').andCallFake(() => {
@@ -603,7 +603,7 @@ describe('ResultsView', () => {
 
       resultsView = getResultsView();
 
-      let {length: resultCount} = resultsView.refs.listView.element.querySelectorAll(".match-row");
+      const {length: resultCount} = resultsView.refs.listView.element.querySelectorAll(".match-row");
       expect(resultCount).toBe(11);
 
       resultsView.selectFirstResult();
@@ -661,14 +661,14 @@ describe('ResultsView', () => {
 
         await resultsView.collapseResult();
 
-        let selectedItem = resultsView.element.querySelector('.selected');
+        const selectedItem = resultsView.element.querySelector('.selected');
         expect(selectedItem).toHaveClass('collapsed');
         expect(selectedItem).toBe(resultsView.refs.listView.element.querySelector('.path-row').parentElement);
       });
 
       it("collapses all results if collapse All button is pressed", async () => {
         await resultsView.collapseAllResults();
-        for (let item of Array.from(resultsView.refs.listView.element.querySelectorAll('.path-row'))) {
+        for (const item of Array.from(resultsView.refs.listView.element.querySelectorAll('.path-row'))) {
           expect(item.parentElement).toHaveClass('collapsed');
         }
       });
@@ -678,7 +678,7 @@ describe('ResultsView', () => {
 
         await resultsView.expandResult();
 
-        let selectedItem = resultsView.element.querySelector('.selected');
+        const selectedItem = resultsView.element.querySelector('.selected');
         expect(selectedItem).toHaveClass('match-row');
         expect(selectedItem).toBe(resultsView.refs.listView.element.querySelector('.match-row'));
       });
@@ -686,7 +686,7 @@ describe('ResultsView', () => {
       it("expands all results if 'Expand All' button is pressed", async () => {
         await resultsView.expandAllResults();
         await etch.update(resultsView.refs.listView);
-        for (let item of Array.from(resultsView.refs.listView.element.querySelectorAll('.path-row'))) {
+        for (const item of Array.from(resultsView.refs.listView.element.querySelectorAll('.path-row'))) {
           expect(item.parentElement).not.toHaveClass('collapsed');
         }
       });

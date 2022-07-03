@@ -4,7 +4,7 @@ const FindOptions = require('../lib/find-options');
 const BufferSearch = require('../lib/buffer-search');
 
 describe('BufferSearch', () => {
-  let model, editor, buffer, markersListener, currentResultListener, searchSpy;
+  let model; let editor; let buffer; let markersListener; let currentResultListener; let searchSpy;
 
   beforeEach(() => {
     editor = new TextEditor();
@@ -634,7 +634,7 @@ describe('BufferSearch', () => {
 });
 
 describe("BufferSearch", () => {
-  let model, editor, markersListener, currentResultListener;
+  let model; let editor; let markersListener; let currentResultListener;
 
   beforeEach(() => {
     editor = new TextEditor();

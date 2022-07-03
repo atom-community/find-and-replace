@@ -12,8 +12,8 @@ const {conditionPromise} = require('./async-spec-helpers');
 for (const ripgrep of [false, true]) {
 describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
   const {stoppedChangingDelay} = TextBuffer.prototype;
-  let activationPromise, searchPromise, editor, editorElement, findView,
-      projectFindView, workspaceElement;
+  let activationPromise; let searchPromise; let editor; let editorElement; let findView;
+      let projectFindView; let workspaceElement;
 
   function getAtomPanel() {
     return workspaceElement.querySelector('.project-find').parentNode;
@@ -178,7 +178,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
   });
 
   describe("when project-find:show-in-current-directory is triggered", () => {
-    let nested, tree, projectPath;
+    let nested; let tree; let projectPath;
 
     beforeEach(() => {
       projectPath = temp.mkdirSync("atom");
@@ -284,7 +284,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
       beforeEach(() => {
         jasmine.useRealClock()
 
-        let projectPath = temp.mkdirSync("atom");
+        const projectPath = temp.mkdirSync("atom");
         fs.writeFileSync(path.join(projectPath, "tabs.txt"), "\t\n\\\t\n\\\\t");
         atom.project.setPaths([projectPath]);
         atom.commands.dispatch(workspaceElement, 'project-find:show');
@@ -636,7 +636,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
         await searchPromise;
       });
 
-      it("runs a case insensitive search by default", () => expect(atom.workspace.scan.argsForCall[0][0]).toEqual(/ITEMS/gim));
+      it("runs a case insensitive search by default", () => expect(atom.workspace.scan.argsForCall[0][0]).toEqual(/items/gim));
 
       it("toggles case sensitive option via an event and finds files matching the pattern", async () => {
         expect(projectFindView.refs.caseOptionButton).not.toHaveClass('selected');
@@ -877,7 +877,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
       beforeEach(() => {
         atom.commands.dispatch(workspaceElement, 'project-find:show');
         spyOn(atom.workspace, 'scan').andCallFake(() => {
-          let promise = Promise.resolve();
+          const promise = Promise.resolve();
           promise.cancel = () => {};
           return promise;
         });
@@ -1042,7 +1042,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
       function getResultDecorations(clazz) {
         const result = [];
         const decorations = editor.decorationsStateForScreenRowRange(0, editor.getLineCount());
-        for (let id in decorations) {
+        for (const id in decorations) {
           const decoration = decorations[id];
           if (decoration.properties.class === clazz) {
             result.push(decoration);
@@ -1174,7 +1174,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
   });
 
   describe("replacing", () => {
-    let testDir, sampleJs, sampleCoffee, replacePromise;
+    let testDir; let sampleJs; let sampleCoffee; let replacePromise;
 
     beforeEach(async () => {
       testDir = temp.mkdirSync('atom-find-and-replace');
@@ -1198,7 +1198,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
       let filePath = null;
 
       beforeEach(() => {
-        let projectPath = temp.mkdirSync("atom");
+        const projectPath = temp.mkdirSync("atom");
         filePath = path.join(projectPath, "tabs.txt");
         fs.writeFileSync(filePath, "a\nb\na");
         atom.project.setPaths([projectPath]);
@@ -1399,7 +1399,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
 
           expect(atom.workspace.scan).not.toHaveBeenCalled();
           expect(atom.beep).toHaveBeenCalled();
-          expect(projectFindView.refs.descriptionLabel.textContent.replace(/(  )/g, ' ')).toContain("No results");
+          expect(projectFindView.refs.descriptionLabel.textContent.replace(/( {2})/g, ' ')).toContain("No results");
         });
       });
 
@@ -1441,11 +1441,11 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
 
           expect(projectFindView.refs.descriptionLabel.textContent).toContain("Replaced items with sunshine 13 times in 2 files");
 
-          let sampleJsContent = fs.readFileSync(sampleJs, 'utf8');
+          const sampleJsContent = fs.readFileSync(sampleJs, 'utf8');
           expect(sampleJsContent.match(/items/g)).toBeFalsy();
           expect(sampleJsContent.match(/sunshine/g)).toHaveLength(6);
 
-          let sampleCoffeeContent = fs.readFileSync(sampleCoffee, 'utf8');
+          const sampleCoffeeContent = fs.readFileSync(sampleCoffee, 'utf8');
           expect(sampleCoffeeContent.match(/items/g)).toBeFalsy();
           expect(sampleCoffeeContent.match(/sunshine/g)).toHaveLength(7);
         });
@@ -1487,7 +1487,7 @@ describe(`ProjectFindView (ripgrep=${ripgrep})`, () => {
 
           expect(projectFindView.refs.descriptionLabel.textContent).toContain("Replaced ;$ with sunshine 9 times in 2 files");
 
-          let sampleJsContent = fs.readFileSync(sampleJs, 'utf8');
+          const sampleJsContent = fs.readFileSync(sampleJs, 'utf8');
           expect(sampleJsContent.match(/;$/gm)).toBeFalsy();
           expect(sampleJsContent.match(/sunshine/g)).toHaveLength(8);
         });

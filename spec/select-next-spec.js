@@ -5,7 +5,7 @@ const SelectNext = require('../lib/select-next');
 const dedent = require('dedent');
 
 describe("SelectNext", () => {
-  let workspaceElement, editorElement, editor;
+  let workspaceElement; let editorElement; let editor;
 
   beforeEach(async () => {
     workspaceElement = atom.views.getView(atom.workspace);

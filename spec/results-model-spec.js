@@ -5,7 +5,7 @@ const ResultsModel = require("../lib/project/results-model");
 const FindOptions = require("../lib/find-options");
 
 describe("ResultsModel", () => {
-  let editor, resultsModel, reporterSpy;
+  let editor; let resultsModel; let reporterSpy;
 
   beforeEach(async () => {
     atom.config.set("core.excludeVcsIgnoredPaths", false);
