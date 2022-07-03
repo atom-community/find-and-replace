@@ -30,6 +30,7 @@
   "engines": {
     "atom": "*"
   },
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint . --fix",
     "test.lint": "eslint ."
@@ -43,8 +44,13 @@
   },
   "devDependencies": {
     "dedent": "^0.6.0",
-    "eslint": "7",
+    "eslint": "6",
     "eslint-config-atomic": "^1.18.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "eslint": "6"
+    }
   },
   "consumedServices": {
     "atom.file-icons": {
