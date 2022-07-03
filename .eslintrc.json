@@ -1,6 +1,6 @@
 {
   "extends": "eslint-config-atomic",
-  "ignorePatterns": ["dist/", "node_modules/"],
+  "ignorePatterns": ["dist/", "node_modules/", "spec/fixtures/"],
   "rules": {
     // because it was not followed in the codebase previously
     "curly": "off",
