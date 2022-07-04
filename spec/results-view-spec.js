@@ -481,14 +481,14 @@ describe('ResultsView', () => {
     it("opens the file containing the result when 'core:confirm' is called", async () => {
       // open something in sample.coffee
       resultsView.element.focus();
-      _.times(3, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      _.times(3, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
       await atom.commands.dispatch(resultsView.element, 'core:confirm');
       await paneItemOpening()
       expect(atom.workspace.getCenter().getActivePaneItem().getPath()).toContain('sample.');
 
       // open something in sample.js
       resultsView.element.focus();
-      _.times(6, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      _.times(6, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
       await atom.commands.dispatch(resultsView.element, 'core:confirm');
       await paneItemOpening()
       expect(atom.workspace.getCenter().getActivePaneItem().getPath()).toContain('sample.');
@@ -733,7 +733,7 @@ describe('ResultsView', () => {
       const resultsView = buildResultsView();
 
       resultsView.selectFirstResult();
-      _.times(3, async () => await atom.commands.dispatch(resultsView.element, 'core:move-down'));
+      _.times(3, () => atom.commands.dispatch(resultsView.element, 'core:move-down'));
       await atom.commands.dispatch(resultsView.element, 'core:copy');
       expect(atom.clipboard.read()).toBe('goodnight moon');
     });
