@@ -30,6 +30,11 @@
   "engines": {
     "atom": "*"
   },
+  "type": "commonjs",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "test.lint": "eslint ."
+  },
   "dependencies": {
     "binary-search": "^1.3.3",
     "etch": "0.9.3",
@@ -38,8 +43,14 @@
     "underscore-plus": "1.x"
   },
   "devDependencies": {
-    "coffeelint": "^1.9.7",
-    "dedent": "^0.6.0"
+    "dedent": "^0.6.0",
+    "eslint": "6",
+    "eslint-config-atomic": "^1.18.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "eslint": "6"
+    }
   },
   "consumedServices": {
     "atom.file-icons": {

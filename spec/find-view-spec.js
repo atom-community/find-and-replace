@@ -3,7 +3,7 @@
 const path = require("path");
 
 describe("FindView", () => {
-  let workspaceElement, editorView, editor, findView, activationPromise;
+  let workspaceElement; let editorView; let editor; let findView; let activationPromise;
 
   function getFindAtomPanel() {
     return workspaceElement.querySelector(".find-and-replace").parentNode;
@@ -12,7 +12,7 @@ describe("FindView", () => {
   function getResultDecorations(editor, clazz) {
     const result = [];
     const decorations = editor.decorationsStateForScreenRowRange(0, editor.getLineCount())
-    for (let id in decorations) {
+    for (const id in decorations) {
       const decoration = decorations[id]
       if (decoration.properties.class === clazz) {
         result.push(decoration);

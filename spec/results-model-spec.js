@@ -1,11 +1,11 @@
 /** @babel */
 
 const path = require("path");
-const ResultsModel = require("../lib/project/results-model");
+const {ResultsModel} = require("../lib/project/results-model");
 const FindOptions = require("../lib/find-options");
 
 describe("ResultsModel", () => {
-  let editor, resultsModel, reporterSpy;
+  let editor; let resultsModel; let reporterSpy;
 
   beforeEach(async () => {
     atom.config.set("core.excludeVcsIgnoredPaths", false);
@@ -98,7 +98,7 @@ describe("ResultsModel", () => {
 
       advanceClock(editor.buffer.stoppedChangingDelay)
       editor.getBuffer().destroy()
-      result = resultsModel.getResult(editor.getPath())
+      const result = resultsModel.getResult(editor.getPath())
       expect(result.matches[0].lineText).toBe("  var sort = function(items) {")
     });
   });

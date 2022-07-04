@@ -7,7 +7,7 @@ BufferSearch = require './buffer-search'
 getIconServices = require './get-icon-services'
 FindView = require './find-view'
 ProjectFindView = require './project-find-view'
-ResultsModel = require './project/results-model'
+{ResultsModel} = require './project/results-model'
 ResultsPaneView = require './project/results-pane'
 ReporterProxy = require './reporter-proxy'
 
