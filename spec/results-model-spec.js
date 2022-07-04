@@ -137,7 +137,7 @@ describe("ResultsModel", () => {
 
       advanceClock(editor.buffer.stoppedChangingDelay)
       editor.getBuffer().destroy()
-      result = resultsModel.getResult(editor.getPath())
+      const result = resultsModel.getResult(editor.getPath())
 
       expect(Number.isInteger(reporterSpy.sendSearchEvent.calls[0].args[0])).toBeTruthy()
       expect(reporterSpy.sendSearchEvent.calls[0].args[1]).toBe(6)
